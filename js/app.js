@@ -19,8 +19,8 @@
   var preloader=document.getElementById('preloader');
   function dismissPreloader(){preloader.classList.add('done');setTimeout(initHero,200)}
   if(document.fonts&&document.fonts.ready){
-    document.fonts.ready.then(function(){setTimeout(dismissPreloader,1500)});
-  }else{window.addEventListener('load',function(){setTimeout(dismissPreloader,1500)})}
+    document.fonts.ready.then(function(){setTimeout(dismissPreloader,600)});
+  }else{window.addEventListener('load',function(){setTimeout(dismissPreloader,600)})}
 
   /* ===== CURSOR ===== */
   var dotEl=document.getElementById('cursorDot'),ringEl=document.getElementById('cursorRing');
@@ -156,7 +156,7 @@
       mSpc.appendChild(li)});
     mOvl.classList.add('open');document.body.classList.add('locked');
   }
-  function closeModal(){mOvl.classList.remove('open');document.body.classList.remove('locked');curProd=null}
+  function closeModal(){mOvl.classList.remove('open');document.body.classList.remove('locked');curProd=null;mAdd.style.display=''}
 
   grid.addEventListener('click',function(e){
     if(e.target.closest('.product-add'))return;
@@ -222,6 +222,33 @@
   coEl.addEventListener('click',closeCart);
   document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeCart();closeModal()}});
   document.getElementById('checkoutBtn').addEventListener('click',function(){toast('Checkout coming soon')});
+
+  /* WhatsApp order */
+  document.getElementById('waCheckoutBtn').addEventListener('click',function(){
+    if(!cart.length)return;
+    var msg='Hi, I\u2019d like to order from Minimalist Merchants:%0A%0A';
+    var tot=0;
+    cart.forEach(function(it,i){
+      var line=(i+1)+'. '+it.name+' \u00d7 '+it.qty+' \u2014 \u20b9'+(it.price*it.qty);
+      msg+=encodeURIComponent(line)+'%0A';
+      tot+=it.price*it.qty;
+    });
+    msg+='%0ATotal: \u20b9'+tot+'%0A%0APlease confirm availability and shipping details.';
+    window.open('https://wa.me/'+SITE.whatsapp+'?text='+msg,'_blank');
+  });
+
+  /* Policy links */
+  document.addEventListener('click',function(e){
+    var link=e.target.closest('.policy-link');
+    if(link){e.preventDefault();var key=link.dataset.policy;
+    if(POLICIES[key]){
+      mNam.textContent=link.textContent;mPri.textContent='';
+      mDes.textContent=POLICIES[key];mSpc.innerHTML='';
+      mImg.innerHTML='<div style=\"width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--surface)\"><p style=\"font-size:2.4rem;opacity:.12\">'+SITE.name.charAt(0)+'</p></div>';
+      mAdd.style.display='none';
+      mOvl.classList.add('open');document.body.classList.add('locked')}}});
+
+
   renderCart();
 
   /* Toast */

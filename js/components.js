@@ -58,6 +58,7 @@ function renderCartDrawer(){
           +'<span class="cart-total-label">Total</span>'
           +'<span class="cart-total-amount" id="cartTotal">&#8377;0</span>'
         +'</div>'
+        +'<button class="wa-checkout-btn" id="waCheckoutBtn">'+ICONS.whatsapp+' Order via WhatsApp</button>'
         +'<button class="cart-checkout-btn" id="checkoutBtn">Checkout</button>'
       +'</div>'
     +'</div>';
@@ -239,6 +240,8 @@ function renderFooter(){
   FOOTER_CONNECT.forEach(function(l){
     connectItems+='<li><a href="'+l.href+'" target="_blank" rel="noopener">'+l.label+'</a></li>';
   });
+  connectItems+='<li><a href="mailto:'+SITE.email+'">'+SITE.email+'</a></li>';
+  connectItems+='<li><a href="https://wa.me/'+SITE.whatsapp+'" target="_blank" rel="noopener">WhatsApp</a></li>';
 
   var studioItems='';
   FOOTER_STUDIO.forEach(function(s){
@@ -262,10 +265,17 @@ function renderFooter(){
       +'<p class="footer-col-title">Studio</p>'
       +'<ul>'+studioItems+'</ul>'
     +'</div>'
+    +'<div class="footer-col">'
+      +'<p class="footer-col-title">Policies</p>'
+      +'<ul>'
+        +'<li><a href="#" class="policy-link" data-policy="shipping">Shipping Info</a></li>'
+        +'<li><a href="#" class="policy-link" data-policy="returns">Returns &amp; Exchanges</a></li>'
+        +'<li><a href="#" class="policy-link" data-policy="privacy">Privacy Policy</a></li>'
+      +'</ul>'
+    +'</div>'
     +'<div class="footer-bottom">'
       +'<ul class="footer-social">'
-        +'<li><a href="'+SITE.instagram+'" aria-label="Instagram" target="_blank" rel="noopener">'+ICONS.instagram+'</a></li>'
-      +'</ul>'
+        +'<li><a href="'+SITE.instagram+'" aria-label="Instagram" target="_blank" rel="noopener">'+ICONS.instagram+'</a></li>'        +'<li><a href=\"https://wa.me/'+SITE.whatsapp+'\" aria-label=\"WhatsApp\" target=\"_blank\" rel=\"noopener\">'+ICONS.whatsapp+'</a></li>'      +'</ul>'
       +'<p class="footer-copy">'+SITE.copyright+'</p>'
     +'</div>'
     +'</footer>';
@@ -273,6 +283,17 @@ function renderFooter(){
 
 function renderBackToTop(){
   return '<button class="back-top" id="backTop" aria-label="Back to top">'+ICONS.arrowUp+'</button>';
+}
+
+function renderTrustBar(){
+  var items='';
+  TRUST_BAR.forEach(function(t){
+    items+='<div class="trust-item">'
+      +'<p class="trust-title">'+t.title+'</p>'
+      +'<p class="trust-desc">'+t.desc+'</p>'
+      +'</div>';
+  });
+  return '<div class="trust-bar reveal">'+items+'</div>';
 }
 
 /* ===== MASTER BUILD ===== */
@@ -295,6 +316,7 @@ function buildPage(){
     +renderProducts()
     +renderStats()
     +renderProcess()
+    +renderTrustBar()
     +renderNewsletter()
     +renderFooter()
     +renderBackToTop();
